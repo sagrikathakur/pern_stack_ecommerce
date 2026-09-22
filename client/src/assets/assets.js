@@ -1,4 +1,4 @@
-import gs_logo from "./gs_logo.jpg"
+import gs_logo from "./gs_logo.png"
 import happy_store from "./happy_store.webp"
 import upload_area from "./upload_area.svg"
 import hero_model_img from "./hero_model_img.png"
@@ -27,27 +27,27 @@ import profile_pic3 from "./profile_pic3.jpg"
 import pexels_pic from './pexels-dream_-makkerzz-1603229-28347078.jpg'
 
 export const assets = {
-    upload_area, 
+    upload_area,
     hero_model_img,
-    hero_product_img1, 
-    hero_product_img2, 
+    hero_product_img1,
+    hero_product_img2,
     gs_logo,
     happy_store,
     profile_pic1,
     profile_pic2,
     profile_pic3,
     pexels_pic,
-    product_img1, 
-    product_img2, 
-    product_img3, 
-    product_img4, 
-    product_img5, 
+    product_img1,
+    product_img2,
+    product_img3,
+    product_img4,
+    product_img5,
     product_img6,
-    product_img7, 
-    product_img8, 
-    product_img9, 
-    product_img10, 
-    product_img11, 
+    product_img7,
+    product_img8,
+    product_img9,
+    product_img10,
+    product_img11,
     product_img12,
     product_img13,
     product_img14,
@@ -416,4 +416,4 @@ export const dummyStoreDashboardData = {
     "totalOrders": 2,
     "totalEarnings": 636,
     "totalProducts": 5
-}
+}
