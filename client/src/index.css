@@ -5,11 +5,17 @@
   --color-app-green-dark: #14251A;
   --color-app-cream: #FFFFFF;
   --color-app-border: #E5E7EB;
+  --color-app-orange: #F57C00;
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -20,4 +26,4 @@
 
 .animate-marquee:hover {
   animation-play-state: paused;
-}
+}
