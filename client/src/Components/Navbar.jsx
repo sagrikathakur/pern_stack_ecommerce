@@ -1,6 +1,6 @@
-import React, { useCallback, useContext, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Heart, UserIcon, Menu, X, SearchIcon, ShoppingCartIcon, ChevronDownIcon, XIcon, MenuIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Heart, UserIcon, SearchIcon, ShoppingCartIcon, ChevronDownIcon, XIcon, MenuIcon, MapPinIcon, PackageIcon, ArrowRightIcon, TagIcon, ShieldCheck, ShieldIcon, LogOutIcon } from 'lucide-react';
 import { assets } from '../assets/assets';
 
 const Navbar = () => {
@@ -18,7 +18,12 @@ const Navbar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
     }
+  };
+  const handleLogout = () => {
+    setUserMenuOpen(false);
+    navigate("/");
   };
 
   return (
@@ -99,54 +104,78 @@ const Navbar = () => {
               {/* drop down */}
               {
                 userMenuOpen && (
-                  <div className='absolute right-0 mt-2 w-48 bg-white border border-zinc-200 rounded-xl shadow-lg py-2 z-50 text-sm'>
-                    <div className='px-4 py-2 border-b border-zinc-100'>
-                      <p className='font-semibold text-zinc-800'>{user ? user.name : 'Guest'}</p>
-                      <p className='text-xs text-zinc-500 truncate'>{user ? user.email : ''}</p>
-                    </div>
+                  <>
+                    <div onClick={() => setUserMenuOpen(false)}
+                      className='fixed inset-0 z-40'></div>
+                    <div className='absolute right-0 mt-2 w-48 bg-white border border-zinc-200 rounded-xl shadow-lg py-2 z-50 text-sm'>
+                      {
+                        user && (
+                          <div className='px-4 py-2 border-b border-app-border'>
+                            <p className='font-semibold text-zinc-800'>{user?.name}</p>
+                            <p className='text-xs text-zinc-500 truncate'>{user?.email}</p>
+                          </div>
+                        )
+                      }
+                      <div onClick={() => setUserMenuOpen(false)}>
+                        {!user &&
+                          <Link to='/login'
+                            className='dropdown-link'>
+                            <UserIcon size={16} />
+                            Sign In
+                          </Link>}
 
-                    {user ? (
-                      <>
-                        <Link
-                          to='/my-orders'
-                          onClick={() => setUserMenuOpen(false)}
-                          className='block px-4 py-2 text-zinc-700 hover:bg-zinc-50 transition-colors'
-                        >
-                          My Orders
-                        </Link>
-                        <Link
-                          to='/wishlist'
-                          onClick={() => setUserMenuOpen(false)}
-                          className='block px-4 py-2 text-zinc-700 hover:bg-zinc-50 transition-colors'
-                        >
-                          Wishlist
-                        </Link>
-                        {user.isAdmin && (
-                          <Link
-                            to='/admin'
-                            onClick={() => setUserMenuOpen(false)}
-                            className='block px-4 py-2 text-emerald-700 font-medium hover:bg-emerald-50 transition-colors'
-                          >
-                            Admin Dashboard
+                        {user &&
+                          <Link to='/orders'
+                            className='dropdown-link'>
+                            <PackageIcon size={16} />
+                            My Orders
+                          </Link>}
+
+                        {user &&
+                          <Link to='/addresses'
+                            className='dropdown-link'>
+                            <MapPinIcon size={16} />
+                            Addresses
+                          </Link>}
+
+                        {user &&
+                          <Link to='/products'
+                            className='dropdown-link'>
+                            <ArrowRightIcon size={16} />
+                            Products
+                          </Link>}
+
+
+                        {user &&
+                          <Link to='/deals'
+                            className='dropdown-link'>
+                            <TagIcon size={16} />
+                            Deals
+                          </Link>}
+
+                        {user?.isAdmin && (
+                          <Link to='/admin/products'
+                            className='dropdown-link '>
+                            <ShieldIcon className='text-app-orange'
+                              size={16} />
+                            <span className='text-orange-700 hover:text-app-orange'>
+                              Admin Panel
+                            </span>
                           </Link>
                         )}
-                        <button
-                          onClick={() => setUserMenuOpen(false)}
-                          className='w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors border-t border-zinc-100 mt-1 cursor-pointer'
-                        >
-                          Logout
-                        </button>
-                      </>
-                    ) : (
-                      <Link
-                        to='/login'
-                        onClick={() => setUserMenuOpen(false)}
-                        className='block px-4 py-2 text-zinc-700 hover:bg-zinc-50 transition-colors'
-                      >
-                        Sign In / Register
-                      </Link>
-                    )}
-                  </div>
+
+                        {user && (
+                          <div className='border-t border-app-border pt-1'>
+                            <button onClick={handleLogout}
+                              className='flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full transition-colors cursor-pointer'>
+                              <LogOutIcon size={16} />
+                              <span>Logout</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
                 )
               }
             </div>
