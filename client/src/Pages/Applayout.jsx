@@ -1,28 +1,13 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbar from '../Components/Navbar';
 
 const Applayout = () => {
   return (
-    <>
 
-      <p>Navbar</p>
-      <main className=' min-h-screen'>
-        <Outlet />
+    <Outlet />
 
+  );
+};
 
-      </main>
-
-    </>
-
-
-
-
-
-
-
-
-
-  )
-}
-
-export default Applayout
+export default Applayout;

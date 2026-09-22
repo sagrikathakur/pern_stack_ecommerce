@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { assets } from '../assets/assets';
+import { Link } from 'react-router-dom';
+import { Diamond, Loader2Icon, Lock, Mail, UserIcon } from 'lucide-react';
 
 const Login = () => {
   const [isLoginState, setIsLoginState] = useState(true);
@@ -20,10 +22,10 @@ const Login = () => {
     <div className='min-h-screen flex w-full bg-gray-50'>
       {/* Left side for desktop */}
       <div className='hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden bg-[#1B3022]'>
-        <img 
-          src={assets.pexels_pic} 
-          alt="Sagar Ratna Background" 
-          className='absolute inset-0 object-cover w-full h-full' 
+        <img
+          src={assets.pexels_pic}
+          alt="Sagar Ratna Background"
+          className='absolute inset-0 object-cover w-full h-full'
         />
         {/* Dark overlay for readability */}
         <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent' />
@@ -38,112 +40,105 @@ const Login = () => {
       </div>
 
       {/* Right side form */}
-      <div className='w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12'>
-        <div className='w-full max-w-md bg-white p-8 sm:p-10 rounded-2xl shadow-sm border border-gray-100'>
+      <div className='flex-1 flex items-center justify-center px-4 py-12 bg-app-cream'>
+        <div className='w-full max-w-md'>
           <div className='text-center mb-8'>
-            <h2 className='text-3xl font-bold text-gray-900 mb-2'>
+            <Link to='/' className='inline-flex items-center gap-2 mb-6'>
+              <Diamond className='size-8 text-app-green' />
+              <span className='text-2xl font-semibold text-app-green'>Sagar Ratna </span>
+            </Link>
+
+            <h2 className='text-2xl font-semibold text-app-green mb-2'>
               {isLoginState ? 'Welcome Back' : 'Create Account'}
             </h2>
             <p className='text-sm text-gray-500'>
-              {isLoginState 
-                ? 'Please enter your credentials to sign in' 
-                : 'Fill in your details to create a new account'}
+              {isLoginState
+                ? "Don't have an account?"
+                : "Fill in your details to create a new account"}
+              <button
+                onClick={() => setIsLoginState(!isLoginState)} className='text-orange-500 ml-1 font-semibold hover:text-orange-500 transition-colors'>
+                {
+                  isLoginState ? "create one " : "sign in "
+                }
+              </button>
             </p>
           </div>
 
+
+          {/* form */}
           <form onSubmit={handleSubmit} className='space-y-5'>
-            {!isLoginState && (
-              <div>
-                <label className='block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2'>
-                  Full Name
+            {
+              !isLoginState && (
+                <label className='text-sm flex flex-col gap-1'>
+                  Name
+                  <div className='relative'>
+                    <UserIcon className=' absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-app-green' />
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      placeholder='Enter your name'
+                      className='w-full pl-11 pr-4 py-3 text-sm bg-white rounded-xl border not-focus:border-app-border transition-all' />
+                  </div>
                 </label>
+              )
+            }
+
+            {/* email */}
+
+            <label className='text-sm flex flex-col gap-1'>
+              Email Address
+              <div className='relative'>
+                <Mail className=' absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-app-green' />
                 <input
-                  type='text'
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder='John Doe'
-                  className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#1B3022] focus:border-transparent transition'
-                />
+                  placeholder='yourmail@gmail.com'
+                  className='w-full pl-11 pr-4 py-3 text-sm bg-white rounded-xl border not-focus:border-app-border transition-all' />
               </div>
-            )}
+            </label>
 
-            <div>
-              <label className='block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2'>
-                Email Address
-              </label>
-              <input
-                type='email'
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder='name@example.com'
-                className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#1B3022] focus:border-transparent transition'
-              />
-            </div>
 
-            <div>
-              <div className='flex justify-between items-center mb-2'>
-                <label className='block text-xs font-semibold uppercase tracking-wider text-gray-700'>
-                  Password
-                </label>
-                {isLoginState && (
-                  <a href='#' className='text-xs font-medium text-[#1B3022] hover:underline'>
-                    Forgot password?
-                  </a>
-                )}
+            {/* password */}
+
+            <label className='text-sm flex flex-col gap-1'>
+              Password
+              <div className='relative'>
+                <Lock className=' absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-app-green' />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder='*******'
+                  className='w-full pl-11 pr-4 py-3 text-sm bg-white rounded-xl border not-focus:border-app-border transition-all' />
               </div>
-              <input
-                type='password'
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder='••••••••'
-                className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#1B3022] focus:border-transparent transition'
-              />
-            </div>
+            </label>
 
-            <button
-              type='submit'
-              disabled={loading}
-              className='w-full py-3 px-4 bg-[#1B3022] hover:bg-[#142419] text-white font-medium rounded-xl transition duration-200 shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer'
-            >
-              {loading ? (
-                <>
-                  <span className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
-                  <span>Processing...</span>
-                </>
-              ) : (
-                <span>{isLoginState ? 'Sign In' : 'Create Account'}</span>
-              )}
-            </button>
+            {/* button */}
+
+            {
+              <button type='submit'
+                disabled={loading}
+
+                className=' flex-center w-full font-semibold py-3 bg-green-950 text-white rounded-xl text-sm hover:bg-green-900 transition-colors disabled:opacity-50'>
+                {
+                  loading ? <Loader2Icon className='animate-spin' /> : isLoginState ? "sign in " : "sign up"
+
+                }
+              </button>
+            }
+
+
+
+
           </form>
 
-          <div className='mt-8 text-center text-sm text-gray-600'>
-            {isLoginState ? (
-              <p>
-                Don't have an account?{' '}
-                <button
-                  type='button'
-                  onClick={() => setIsLoginState(false)}
-                  className='font-semibold text-[#1B3022] hover:underline cursor-pointer'
-                >
-                  Sign up
-                </button>
-              </p>
-            ) : (
-              <p>
-                Already have an account?{' '}
-                <button
-                  type='button'
-                  onClick={() => setIsLoginState(true)}
-                  className='font-semibold text-[#1B3022] hover:underline cursor-pointer'
-                >
-                  Sign in
-                </button>
-              </p>
-            )}
-          </div>
+
+
         </div>
       </div>
     </div>
@@ -151,3 +146,5 @@ const Login = () => {
 };
 
 export default Login;
+
+
