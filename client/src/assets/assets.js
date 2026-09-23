@@ -8,6 +8,7 @@ import pexels_pic from './pexels-dream_-makkerzz-1603229-28347078.jpg'
 import profile_pic1 from "./profile_pic1.jpg"
 import profile_pic2 from "./profile_pic2.jpg"
 import profile_pic3 from "./profile_pic3.jpg"
+import hero_image from "./hero_image.jpg"
 
 // Bridal Sets
 import bridalset_1 from "./bridalset_1.jpg"
@@ -73,11 +74,18 @@ const product_img14 = bridalset_3;
 const product_img15 = earring_3;
 const product_img16 = set_1;
 
+const hero_img = hero_image;
+const heroSec = hero_image;
+
 export const assets = {
     upload_area,
     hero_model_img,
     hero_product_img1,
     hero_product_img2,
+    hero_img,
+    heroSec,
+    hero_image,
+    hero_imgage: hero_image,
     gs_logo,
     happy_store,
     profile_pic1,
@@ -131,6 +139,59 @@ export const assets = {
     product_img15,
     product_img16
 }
+
+
+const hero_main_item = {
+    id: 1,
+    title: "Exquisite Royal Jewellery",
+    subtitle: "Handcrafted Gold, Kundan & Certified Diamond Creations",
+    sub: "Handcrafted Gold, Kundan & Certified Diamond Creations for your special moments.",
+    badge: "100% Certified Authentic Jewels",
+    offer: "Up to 30% Off on Bridal Collections",
+    buttonText: "Shop Collection",
+    buttonLink: "/products",
+    shopLink: "/products",
+    categoryLink: "/products",
+    hero_img: hero_image,
+    heroSec: hero_image,
+    hero_image: hero_image,
+    hero_imgage: hero_image,
+    img: hero_image
+};
+
+export const heroSectionData = Object.assign([
+    hero_main_item,
+    {
+        id: 2,
+        title: "Grand Bridal Heritage",
+        subtitle: "Embrace Elegance with Timeless Royal Choker & Haar Sets",
+        sub: "Embrace Elegance with Timeless Royal Choker & Haar Sets.",
+        badge: "Festive Collection",
+        offer: "Exclusive Festive Edition",
+        buttonText: "Explore Bridal Sets",
+        buttonLink: "/products?category=Bridal%20Sets",
+        shopLink: "/products?category=Bridal%20Sets",
+        categoryLink: "/products",
+        hero_img: bridalset_1,
+        heroSec: bridalset_1,
+        img: bridalset_1
+    },
+    {
+        id: 3,
+        title: "Certified Solitaire Diamonds",
+        subtitle: "Precision Cut Solitaires & Fine Gemstone Jewellery",
+        sub: "Precision Cut Solitaires & Fine Gemstone Jewellery.",
+        badge: "Certified Solitaires",
+        offer: "Certified Authentic Precious Stones",
+        buttonText: "View Diamonds",
+        buttonLink: "/products?category=Diamonds",
+        shopLink: "/products?category=Diamonds",
+        categoryLink: "/products",
+        hero_img: set_1,
+        heroSec: set_1,
+        img: set_1
+    }
+], hero_main_item);
 
 export const categories = ["Necklaces", "Bridal Sets", "Earrings", "Rings", "Kangan & Bangles", "Diamonds"];
 
