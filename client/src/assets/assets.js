@@ -51,7 +51,7 @@ import ring_4 from "./ring_4.jpg"
 // Complete Sets
 import set_1 from "./set_1.jpg"
 
-import { ClockFading as ClockFadingIcon, Headset as HeadsetIcon, Send as SendIcon } from "lucide-react";
+import { ClockFading as ClockFadingIcon, Headset as HeadsetIcon, Package as ParkIcon, Send as SendIcon } from "lucide-react";
 
 const hero_model_img = pexels_pic;
 const hero_product_img1 = bridalset_1;
@@ -194,6 +194,15 @@ export const heroSectionData = Object.assign([
 ], hero_main_item);
 
 export const categories = ["Necklaces", "Bridal Sets", "Earrings", "Rings", "Kangan & Bangles", "Diamonds"];
+
+export const categoriesData = [
+    { id: 1, name: "Necklaces", category: "Necklaces", image: neck_1 },
+    { id: 2, name: "Bridal Sets", category: "Bridal Sets", image: bridalset_1 },
+    { id: 3, name: "Earrings", category: "Earrings", image: earring_1 },
+    { id: 4, name: "Rings", category: "Rings", image: ring_1 },
+    { id: 5, name: "Kangan & Bangles", category: "Kangan & Bangles", image: kangan_1 },
+    { id: 6, name: "Diamonds", category: "Diamonds", image: diamond_1 }
+];
 
 export const dummyRatingsData = [
     { id: "rat_1", rating: 4.9, review: "The Kundan Bridal Set is breathtaking! The intricate gold work and craftsmanship are of royal quality.", user: { name: 'Kristin Watson', image: profile_pic1 }, productId: "prod_1", createdAt: 'Sat Jul 19 2025 14:51:25 GMT+0530 (India Standard Time)', updatedAt: 'Sat Jul 19 2025 14:51:25 GMT+0530 (India Standard Time)', product: { name: 'Royal Maharani Kundan Bridal Set', category: 'Bridal Sets', id: 'prod_1' } },
@@ -410,9 +419,9 @@ export const productDummyData = [
 ];
 
 export const ourSpecsData = [
-    { title: "Free Insured Shipping", description: "Enjoy fast, fully insured delivery on every order with no extra conditions.", icon: SendIcon, accent: '#05DF72' },
-    { title: "7 Days Easy Return", description: "Change your mind? No worries. Return any item safely within 7 days.", icon: ClockFadingIcon, accent: '#FF8904' },
-    { title: "24/7 Expert Support", description: "We're here for you. Get expert assistance with our customer care.", icon: HeadsetIcon, accent: '#A684FF' }
+    { title: "Free Insured Shipping", description: "Enjoy fast, fully insured delivery on every order with no extra conditions.", icon: ParkIcon, accent: '#000000' },
+    { title: "7 Days Easy Return", description: "Change your mind? No worries. Return any item safely within 7 days.", icon: ClockFadingIcon, accent: '#000000' },
+    { title: "24/7 Expert Support", description: "We're here for you. Get expert assistance with our customer care.", icon: HeadsetIcon, accent: '#000000' }
 ]
 
 export const addressDummyData = {
