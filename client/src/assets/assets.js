@@ -9,6 +9,7 @@ import profile_pic1 from "./profile_pic1.jpg"
 import profile_pic2 from "./profile_pic2.jpg"
 import profile_pic3 from "./profile_pic3.jpg"
 import hero_image from "./hero_image.jpg"
+import adminImage from "./nameofADMIN.jpg"
 
 // Bridal Sets
 import bridalset_1 from "./bridalset_1.jpg"
@@ -88,6 +89,8 @@ export const assets = {
     hero_imgage: hero_image,
     gs_logo,
     happy_store,
+    adminImage,
+    nameofADMIN: adminImage,
     profile_pic1,
     profile_pic2,
     profile_pic3,
