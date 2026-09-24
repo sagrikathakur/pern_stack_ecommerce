@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { assets } from '../assets/assets';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Diamond, Loader2Icon, Lock, Mail, UserIcon } from 'lucide-react';
+import { ShopContext } from '../context/ShopContext';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { loginUser } = useContext(ShopContext);
   const [isLoginState, setIsLoginState] = useState(true);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); -
-      setLoading(true);
+    e.preventDefault();
+    setLoading(true);
     setTimeout(() => {
-      window.location.href = '/';
-    }, 1000);
+      loginUser({
+        name: name || (email ? email.split('@')[0] : 'Sagrika'),
+        email: email || 'sagrikathakur68@gmail.com',
+        isAdmin: true,
+      });
+      navigate('/');
+    }, 800);
   };
 
   return (

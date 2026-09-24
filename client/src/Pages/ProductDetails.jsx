@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { productDummyData } from '../assets/assets'
-import { Star, ShoppingBag, ArrowLeft, Check } from 'lucide-react'
-import { toast } from 'react-hot-toast'
+import React, { useState, useEffect, useContext } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { Star, ShoppingBag, ArrowLeft, Check, Heart } from 'lucide-react'
+import { ShopContext } from '../context/ShopContext'
 
 const ProductDetails = () => {
   const { id } = useParams()
-  const product = productDummyData.find((p) => p.id === id) || productDummyData[0]
+  const navigate = useNavigate()
+  const { products, addToCart, toggleWishlist, isInWishlist, currency } = useContext(ShopContext)
   
-  const [selectedImg, setSelectedImg] = useState(product.images[0])
+  const product = products.find((p) => p.id === id) || products[0]
+  
+  const [selectedImg, setSelectedImg] = useState(product?.images?.[0] || '')
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
 
@@ -18,13 +20,20 @@ const ProductDetails = () => {
     }
   }, [id, product])
 
+  if (!product) return null
+
   const handleAddToCart = () => {
+    addToCart(product.id, quantity)
     setAdded(true)
-    toast.success(`${product.name} added to cart!`)
     setTimeout(() => setAdded(false), 2000)
   }
 
-  const relatedProducts = productDummyData.filter(
+  const handleBuyNow = () => {
+    addToCart(product.id, quantity)
+    navigate('/cart')
+  }
+
+  const relatedProducts = products.filter(
     (p) => p.category === product.category && p.id !== product.id
   ).slice(0, 4)
 
@@ -90,9 +99,9 @@ const ProductDetails = () => {
 
           {/* Price */}
           <div className='flex items-baseline gap-3 pt-2 border-t border-zinc-100'>
-            <span className='text-3xl font-bold text-zinc-900'>${product.price}</span>
+            <span className='text-3xl font-bold text-zinc-900'>{currency}{product.price}</span>
             {product.mrp && (
-              <span className='text-base text-zinc-400 line-through'>${product.mrp}</span>
+              <span className='text-base text-zinc-400 line-through'>{currency}{product.mrp}</span>
             )}
             <span className='text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded'>In Stock</span>
           </div>
@@ -131,12 +140,24 @@ const ProductDetails = () => {
                 <span>{added ? 'Added to Cart' : 'Add to Cart'}</span>
               </button>
 
-              <Link
-                to='/cart'
+              <button
+                onClick={handleBuyNow}
                 className='flex-1 py-3.5 px-6 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center cursor-pointer transition-colors text-center shadow-xs'
               >
                 Buy Now
-              </Link>
+              </button>
+
+              <button
+                onClick={() => toggleWishlist(product.id)}
+                className={`p-3.5 border rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+                  isInWishlist(product.id)
+                    ? 'border-red-300 bg-red-50 text-red-600'
+                    : 'border-zinc-300 hover:bg-zinc-100 text-zinc-600'
+                }`}
+                title='Wishlist'
+              >
+                <Heart className={`size-5 ${isInWishlist(product.id) ? 'fill-red-600' : ''}`} />
+              </button>
             </div>
           </div>
 

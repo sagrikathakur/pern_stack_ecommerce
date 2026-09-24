@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { productDummyData, categories, dummyAdminDashboardData } from '../assets/assets'
+import React, { useState, useContext } from 'react'
+import { categories, dummyAdminDashboardData } from '../assets/assets'
 import { Link } from 'react-router-dom'
-import { Plus, Trash2, Edit3, Shield, Package, DollarSign, ShoppingCart, CheckCircle, XCircle } from 'lucide-react'
+import { Plus, Trash2, Shield, Package, DollarSign, ShoppingCart, CheckCircle, XCircle } from 'lucide-react'
+import { ShopContext } from '../context/ShopContext'
 
 const AdminProducts = () => {
-  const [products, setProducts] = useState(productDummyData)
+  const { products, addProduct, deleteProduct, toggleStock, currency } = useContext(ShopContext)
   const [showAddModal, setShowAddModal] = useState(false)
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -16,31 +17,14 @@ const AdminProducts = () => {
   })
 
   const handleDelete = (id) => {
-    setProducts(products.filter((p) => p.id !== id))
-  }
-
-  const toggleStock = (id) => {
-    setProducts(
-      products.map((p) => (p.id === id ? { ...p, inStock: !p.inStock } : p))
-    )
+    deleteProduct(id)
   }
 
   const handleAddProduct = (e) => {
     e.preventDefault()
     if (!newProduct.name || !newProduct.price) return
 
-    const created = {
-      id: `prod_${Date.now()}`,
-      name: newProduct.name,
-      category: newProduct.category,
-      price: Number(newProduct.price),
-      mrp: Number(newProduct.mrp) || Number(newProduct.price) + 50,
-      description: newProduct.description || 'Exclusive handcrafted jewellery item.',
-      images: [products[0]?.images[0]],
-      inStock: newProduct.inStock
-    }
-
-    setProducts([created, ...products])
+    addProduct(newProduct)
     setShowAddModal(false)
     setNewProduct({ name: '', category: 'Necklaces', price: '', mrp: '', description: '', inStock: true })
   }
@@ -132,8 +116,8 @@ const AdminProducts = () => {
                     </span>
                   </td>
                   <td className='p-4 font-semibold text-zinc-900'>
-                    ${product.price}
-                    {product.mrp && <span className='text-xs text-zinc-400 line-through ml-2'>${product.mrp}</span>}
+                    {currency}{product.price}
+                    {product.mrp && <span className='text-xs text-zinc-400 line-through ml-2'>{currency}{product.mrp}</span>}
                   </td>
                   <td className='p-4'>
                     <button

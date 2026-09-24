@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { productDummyData } from '../../assets/assets'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { ShopContext } from '../../context/ShopContext';
 
 const PopularProduct = () => {
-  const [products, setProducts] = useState([])
-
-  useEffect(() => {
-    setProducts(productDummyData)
-  }, [])
+  const { products, currency } = useContext(ShopContext);
 
   return (
     <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14'>
@@ -24,7 +20,7 @@ const PopularProduct = () => {
         {products.map((product) => (
           <Link
             key={product.id}
-            to={`/product/${product.id}`}
+            to={`/products/${product.id}`}
             className='group flex flex-col'
           >
             {/* Image Container - Perfectly Equal Aspect Ratio & Size */}
@@ -42,13 +38,13 @@ const PopularProduct = () => {
             </h3>
             <p className='text-xs text-zinc-400 capitalize mt-0.5'>{product.category}</p>
             <p className='text-sm font-semibold text-zinc-900 mt-1.5'>
-              ${product.price}
+              {currency}{product.price}
             </p>
           </Link>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PopularProduct
+export default PopularProduct;

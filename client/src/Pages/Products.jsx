@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import { productDummyData, categories } from '../assets/assets'
+import React, { useState, useContext } from 'react'
+import { categories } from '../assets/assets'
 import { Link, useSearchParams } from 'react-router-dom'
+import { ShopContext } from '../context/ShopContext'
 
 const Products = () => {
+  const { products, currency } = useContext(ShopContext)
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedCategory = searchParams.get('category') || 'All'
   const [sortOption, setSortOption] = useState('default')
 
   // Filter products by selected category
   const filteredProducts = selectedCategory === 'All'
-    ? productDummyData
-    : productDummyData.filter(item => item.category === selectedCategory)
+    ? products
+    : products.filter(item => item.category === selectedCategory)
 
   // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -76,7 +78,7 @@ const Products = () => {
             </div>
             <h3 className='text-sm font-medium text-zinc-800 truncate group-hover:text-[#1B3022]'>{product.name}</h3>
             <p className='text-xs text-zinc-400 capitalize mt-0.5'>{product.category}</p>
-            <p className='text-sm font-semibold text-zinc-900 mt-1'>${product.price}</p>
+            <p className='text-sm font-semibold text-zinc-900 mt-1'>{currency}{product.price}</p>
           </Link>
         ))}
       </div>

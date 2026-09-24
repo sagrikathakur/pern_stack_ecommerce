@@ -1,19 +1,54 @@
-import React, { useState } from 'react'
-import { addressDummyData, productDummyData } from '../assets/assets'
-import { useNavigate } from 'react-router-dom'
-import { CheckCircle2, CreditCard, Truck, ShieldCheck } from 'lucide-react'
+import React, { useState, useContext } from 'react';
+import { addressDummyData } from '../assets/assets';
+import { useNavigate, Link } from 'react-router-dom';
+import { CreditCard, Truck } from 'lucide-react';
+import { ShopContext } from '../context/ShopContext';
 
 const Checkout = () => {
-  const navigate = useNavigate()
-  const [paymentMethod, setPaymentMethod] = useState('cod')
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const { cartItems, products, getCartAmount, delivery_fee, currency, placeOrder } = useContext(ShopContext);
+  const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [loading, setLoading] = useState(false);
+
+  const cartData = [];
+  for (const id in cartItems) {
+    if (cartItems[id] > 0) {
+      const product = products.find((p) => p.id === id);
+      if (product) {
+        cartData.push({ product, quantity: cartItems[id] });
+      }
+    }
+  }
+
+  const subtotal = getCartAmount();
+  const shipping = subtotal > 0 ? delivery_fee : 0;
+  const total = subtotal + shipping;
 
   const handlePlaceOrder = (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    if (cartData.length === 0) return;
+    setLoading(true);
+
     setTimeout(() => {
-      navigate('/my-orders')
-    }, 1200)
+      const success = placeOrder(paymentMethod);
+      if (success) {
+        navigate('/my-orders');
+      } else {
+        setLoading(false);
+      }
+    }, 1000);
+  };
+
+  if (cartData.length === 0) {
+    return (
+      <div className='max-w-7xl mx-auto px-4 py-20 text-center space-y-4'>
+        <h2 className='text-2xl font-serif font-bold text-zinc-800'>No items to checkout</h2>
+        <p className='text-sm text-zinc-500'>Please add items to your cart before proceeding to checkout.</p>
+        <Link to='/products' className='inline-block px-6 py-3 bg-[#1B3022] text-white text-sm font-semibold rounded-xl'>
+          Browse Products
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -70,21 +105,23 @@ const Checkout = () => {
         <div className='bg-zinc-50 border border-zinc-200 rounded-2xl p-6 h-fit space-y-6'>
           <h2 className='text-lg font-serif font-bold text-zinc-900 pb-3 border-b border-zinc-200'>Order Details</h2>
 
-          <div className='space-y-3'>
-            <div className='flex items-center gap-3 text-sm'>
-              <img src={productDummyData[0].images[0]} alt='' className='size-12 object-cover rounded-lg bg-white border' />
-              <div className='flex-1 min-w-0'>
-                <p className='font-medium text-zinc-800 truncate'>{productDummyData[0].name}</p>
-                <p className='text-xs text-zinc-400'>Qty: 1</p>
+          <div className='space-y-3 max-h-60 overflow-y-auto pr-1'>
+            {cartData.map(({ product, quantity }) => (
+              <div key={product.id} className='flex items-center gap-3 text-sm'>
+                <img src={product.images[0]} alt={product.name} className='size-12 object-cover rounded-lg bg-white border' />
+                <div className='flex-1 min-w-0'>
+                  <p className='font-medium text-zinc-800 truncate'>{product.name}</p>
+                  <p className='text-xs text-zinc-400'>Qty: {quantity}</p>
+                </div>
+                <span className='font-semibold text-zinc-900'>{currency}{product.price * quantity}</span>
               </div>
-              <span className='font-semibold text-zinc-900'>${productDummyData[0].price}</span>
-            </div>
+            ))}
           </div>
 
           <div className='pt-4 border-t border-zinc-200 space-y-2 text-sm text-zinc-600'>
-            <div className='flex justify-between'><span>Subtotal</span><span>${productDummyData[0].price}</span></div>
-            <div className='flex justify-between'><span>Insured Delivery</span><span>$15</span></div>
-            <div className='flex justify-between font-bold text-base text-zinc-900 pt-2 border-t'><span>Total</span><span>${productDummyData[0].price + 15}</span></div>
+            <div className='flex justify-between'><span>Subtotal</span><span>{currency}{subtotal}</span></div>
+            <div className='flex justify-between'><span>Insured Delivery</span><span>{currency}{shipping}</span></div>
+            <div className='flex justify-between font-bold text-base text-zinc-900 pt-2 border-t'><span>Total</span><span>{currency}{total}</span></div>
           </div>
 
           <button
@@ -97,7 +134,7 @@ const Checkout = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Checkout
+export default Checkout;

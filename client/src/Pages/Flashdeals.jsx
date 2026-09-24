@@ -1,19 +1,25 @@
-import React, { useState } from 'react'
-import { productDummyData, couponDummyData } from '../assets/assets'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { ShopContext } from '../context/ShopContext';
+
+const coupons = [
+  { code: 'ROYAL10', discount: 10, description: '10% off on all Kundan & Polki sets' },
+  { code: 'BRIDAL20', discount: 20, description: '20% off on Bridal Collections' },
+  { code: 'DIAMOND15', discount: 15, description: '15% off certified solitaire diamonds' },
+];
 
 const Flashdeals = () => {
-  const dealProducts = productDummyData.filter((p) => p.mrp && p.mrp > p.price)
+  const { products, currency } = useContext(ShopContext);
+  const dealProducts = products.filter((p) => p.mrp && p.mrp > p.price);
 
   const copyCouponCode = (code) => {
-    navigator.clipboard.writeText(code)
-    toast.success(`Coupon code ${code} copied!`)
-  }
+    navigator.clipboard.writeText(code);
+    toast.success(`Coupon code ${code} copied!`);
+  };
 
   return (
     <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12'>
-      
       {/* Header */}
       <div className='border-b border-zinc-200 pb-6'>
         <h1 className='text-3xl font-serif font-bold text-zinc-900'>Deals & Offers</h1>
@@ -24,7 +30,7 @@ const Flashdeals = () => {
       <div className='space-y-4'>
         <h2 className='text-xl font-serif font-bold text-zinc-900'>Active Coupons</h2>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
-          {couponDummyData.map((c, idx) => (
+          {coupons.map((c, idx) => (
             <div key={idx} className='p-5 bg-zinc-50 border border-dashed border-zinc-300 rounded-xl flex items-center justify-between'>
               <div>
                 <p className='text-xs font-semibold text-amber-700 uppercase tracking-wider'>{c.discount}% Discount</p>
@@ -48,12 +54,12 @@ const Flashdeals = () => {
         
         <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6'>
           {dealProducts.map((product) => {
-            const savings = product.mrp - product.price
+            const savings = product.mrp - product.price;
             return (
               <Link key={product.id} to={`/products/${product.id}`} className='group bg-white border border-zinc-200 rounded-xl overflow-hidden hover:shadow-sm transition-shadow'>
                 <div className='relative aspect-square bg-zinc-50 p-4'>
                   <span className='absolute top-3 left-3 bg-red-700 text-white text-[11px] font-semibold px-2 py-0.5 rounded'>
-                    Save ${savings}
+                    Save {currency}{savings}
                   </span>
                   <img
                     src={product.images[0]}
@@ -65,18 +71,18 @@ const Flashdeals = () => {
                   <p className='text-xs text-zinc-400 uppercase tracking-wider'>{product.category}</p>
                   <h3 className='text-sm font-semibold text-zinc-800 line-clamp-1 group-hover:text-[#1B3022]'>{product.name}</h3>
                   <div className='flex items-center gap-2 pt-1'>
-                    <span className='text-base font-bold text-zinc-900'>${product.price}</span>
-                    <span className='text-xs text-zinc-400 line-through'>${product.mrp}</span>
+                    <span className='text-base font-bold text-zinc-900'>{currency}{product.price}</span>
+                    <span className='text-xs text-zinc-400 line-through'>{currency}{product.mrp}</span>
                   </div>
                 </div>
               </Link>
-            )
+            );
           })}
         </div>
       </div>
 
     </div>
-  )
-}
+  );
+};
 
-export default Flashdeals
+export default Flashdeals;

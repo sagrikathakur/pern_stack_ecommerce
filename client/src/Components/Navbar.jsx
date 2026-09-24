@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Heart, UserIcon, SearchIcon, ShoppingCartIcon, ChevronDownIcon, XIcon, MenuIcon, MapPinIcon, PackageIcon, ArrowRightIcon, TagIcon, ShieldCheck, ShieldIcon, LogOutIcon } from 'lucide-react';
+import { Heart, UserIcon, SearchIcon, ShoppingCartIcon, ChevronDownIcon, XIcon, MenuIcon, MapPinIcon, PackageIcon, ArrowRightIcon, TagIcon, ShieldIcon, LogOutIcon } from 'lucide-react';
 import { assets } from '../assets/assets';
+import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
-  const user = { name: "sagrika", email: "sagrikathakur68@gmail.com", isAdmin: true }
-  const { cartCount, setIsCartOpen } = {
-    cartCount: 5,
-    setIsCartOpen: (_data) => { }
-  };
-
-  const [searchQuery, setSearchQuery] = useState('');
+  const { user, logoutUser, getCartCount, wishlist, searchQuery, setSearchQuery } = useContext(ShopContext);
+  const cartCount = getCartCount();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -18,12 +14,13 @@ const Navbar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
     }
   };
+
   const handleLogout = () => {
     setUserMenuOpen(false);
-    navigate("/");
+    logoutUser();
+    navigate('/');
   };
 
   return (
@@ -66,17 +63,17 @@ const Navbar = () => {
           {/* right actions */}
           <div className='flex items-center gap-3 text-zinc-700'>
             {/* button cart */}
-            <button
-              onClick={() => setIsCartOpen(true)}
+            <Link
+              to='/cart'
               className='relative p-2 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer'
             >
               <ShoppingCartIcon className='size-5 text-zinc-900' />
-              {cartCount > 0 &&
-                <span className='absolute -top-1 -right-1 size-4 bg-app-orange text-white text-[10px] font-bold rounded-full flex items-center justify-center'>
+              {cartCount > 0 && (
+                <span className='absolute -top-1 -right-1 size-4 bg-[#1B3022] text-white text-[10px] font-bold rounded-full flex items-center justify-center'>
                   {cartCount}
                 </span>
-              }
-            </button>
+              )}
+            </Link>
 
             {/* User Account */}
             <div className='relative'>
@@ -125,7 +122,7 @@ const Navbar = () => {
                           </Link>}
 
                         {user &&
-                          <Link to='/orders'
+                          <Link to='/my-orders'
                             className='dropdown-link'>
                             <PackageIcon size={16} />
                             My Orders
@@ -181,8 +178,13 @@ const Navbar = () => {
             </div>
 
             {/* Wishlist */}
-            <Link to='/wishlist' className='p-2 hover:bg-zinc-100 rounded-full transition-colors' title='Wishlist'>
+            <Link to='/wishlist' className='relative p-2 hover:bg-zinc-100 rounded-full transition-colors' title='Wishlist'>
               <Heart className='size-5' />
+              {wishlist.length > 0 && (
+                <span className='absolute -top-1 -right-1 size-4 bg-amber-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center'>
+                  {wishlist.length}
+                </span>
+              )}
             </Link>
 
           </div>
