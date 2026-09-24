@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { categories } from '../assets/assets'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ShopContext } from '../context/ShopContext'
+import { useProducts } from '../context/ProductContext'
 
 const Products = () => {
-  const { products, currency } = useContext(ShopContext)
+  const { products, currency } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedCategory = searchParams.get('category') || 'All'
   const [sortOption, setSortOption] = useState('default')
@@ -42,9 +42,9 @@ const Products = () => {
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`px-4 py-2 text-xs sm:text-sm font-medium rounded-full transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-xs sm:text-sm font-medium rounded-full transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-[#1B3022] text-white'
+                  ? 'bg-[#142419] text-white shadow-xs'
                   : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
               }`}
             >

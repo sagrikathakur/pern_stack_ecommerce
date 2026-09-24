@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { categories, dummyAdminDashboardData } from '../assets/assets'
 import { Link } from 'react-router-dom'
 import { Plus, Trash2, Shield, Package, DollarSign, ShoppingCart, CheckCircle, XCircle } from 'lucide-react'
-import { ShopContext } from '../context/ShopContext'
+import { useProducts } from '../context/ProductContext'
 
 const AdminProducts = () => {
-  const { products, addProduct, deleteProduct, toggleStock, currency } = useContext(ShopContext)
+  const { products, addProduct, deleteProduct, toggleStock, currency } = useProducts()
   const [showAddModal, setShowAddModal] = useState(false)
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -45,7 +45,7 @@ const AdminProducts = () => {
 
         <button
           onClick={() => setShowAddModal(true)}
-          className='inline-flex items-center gap-2 px-6 py-3 bg-[#1B3022] hover:bg-[#14251A] text-white text-sm font-semibold rounded-xl cursor-pointer transition-colors shadow-md'
+          className='inline-flex items-center gap-2 px-6 py-3 bg-[#142419] hover:bg-[#0E1A12] text-white text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-sm hover:shadow-md'
         >
           <Plus className='size-4' />
           <span>Add New Product</span>

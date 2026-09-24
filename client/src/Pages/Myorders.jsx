@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Truck, ArrowRight } from 'lucide-react';
-import { ShopContext } from '../context/ShopContext';
+import { useOrders } from '../context/OrderContext';
+import { useProducts } from '../context/ProductContext';
 
 const Myorders = () => {
-  const { orders, currency } = useContext(ShopContext);
+  const { orders } = useOrders();
+  const { currency } = useProducts();
 
   if (orders.length === 0) {
     return (

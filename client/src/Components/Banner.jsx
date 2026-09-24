@@ -15,11 +15,11 @@ const Banner = () => {
     <div className="flex items-center gap-12 shrink-0 pr-12">
       <div className="flex items-center gap-2">
         <TruckIcon className="size-4 shrink-0" />
-        <span>3-5 day delivery for Domestic Orders</span>
+        <span>Free Insured Delivery on orders over $800!</span>
       </div>
       <div className="flex items-center gap-2">
         <ZapIcon className="size-3.5 fill-yellow-500 text-yellow-500" />
-        <span className="text-white/90">100% Natural Gemstones</span>
+        <span className="text-white/90">100% Certified Authentic Gemstones</span>
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { assets } from '../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { Diamond, Loader2Icon, Lock, Mail, UserIcon } from 'lucide-react';
-import { ShopContext } from '../context/ShopContext';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginUser } = useContext(ShopContext);
+  const { loginUser } = useAuth();
   const [isLoginState, setIsLoginState] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -64,7 +64,7 @@ const Login = () => {
                 ? "Don't have an account?"
                 : "Fill in your details to create a new account"}
               <button
-                onClick={() => setIsLoginState(!isLoginState)} className='text-orange-500 ml-1 font-semibold hover:text-orange-500 transition-colors'>
+                onClick={() => setIsLoginState(!isLoginState)} className='text-[#142419] underline ml-1 font-semibold hover:text-black transition-colors cursor-pointer'>
                 {
                   isLoginState ? "create one " : "sign in "
                 }
@@ -128,17 +128,15 @@ const Login = () => {
 
             {/* button */}
 
-            {
-              <button type='submit'
-                disabled={loading}
+            <button type='submit'
+              disabled={loading}
+              className='flex items-center justify-center w-full font-semibold py-3.5 bg-[#142419] hover:bg-[#0E1A12] text-white rounded-xl text-sm transition-all shadow-sm disabled:opacity-50 cursor-pointer'>
+              {
+                loading ? <Loader2Icon className='animate-spin' /> : isLoginState ? "sign in " : "sign up"
 
-                className=' flex-center w-full font-semibold py-3 bg-green-950 text-white rounded-xl text-sm hover:bg-green-900 transition-colors disabled:opacity-50'>
-                {
-                  loading ? <Loader2Icon className='animate-spin' /> : isLoginState ? "sign in " : "sign up"
+              }
+            </button>
 
-                }
-              </button>
-            }
 
 
 

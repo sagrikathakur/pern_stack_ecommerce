@@ -1,10 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, ShoppingBag, Heart } from 'lucide-react';
-import { ShopContext } from '../context/ShopContext';
+import { useWishlist } from '../context/WishlistContext';
+import { useProducts } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
 
 const Wishlist = () => {
-  const { wishlist, products, removeFromWishlist, addToCart, currency } = useContext(ShopContext);
+  const { wishlist, removeFromWishlist } = useWishlist();
+  const { products, currency } = useProducts();
+  const { addToCart } = useCart();
 
   const wishlistProducts = products.filter((p) => wishlist.includes(p.id));
 
@@ -66,7 +70,7 @@ const Wishlist = () => {
 
             <button
               onClick={() => handleMoveToCart(product.id)}
-              className='mt-4 w-full py-2.5 bg-[#1B3022] hover:bg-[#14251A] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer'
+              className='mt-4 w-full py-2.5 bg-[#142419] hover:bg-[#0E1A12] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer'
             >
               <ShoppingBag className='size-3.5' />
               <span>Move to Cart</span>

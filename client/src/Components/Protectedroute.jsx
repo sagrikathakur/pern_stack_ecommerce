@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
-import { ShopContext } from '../context/ShopContext'
+import { useAuth } from '../context/AuthContext'
 
 const Protectedroute = () => {
-  const { user } = useContext(ShopContext)
+  const { user } = useAuth()
 
   return user ? <Outlet /> : <Navigate to='/login' replace />
 }

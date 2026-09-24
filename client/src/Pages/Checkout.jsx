@@ -1,12 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { addressDummyData } from '../assets/assets';
 import { useNavigate, Link } from 'react-router-dom';
 import { CreditCard, Truck } from 'lucide-react';
-import { ShopContext } from '../context/ShopContext';
+import { useCart } from '../context/CartContext';
+import { useProducts } from '../context/ProductContext';
+import { useOrders } from '../context/OrderContext';
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cartItems, products, getCartAmount, delivery_fee, currency, placeOrder } = useContext(ShopContext);
+  const { cartItems, getCartAmount, getDeliveryFee, clearCart } = useCart();
+  const { products, currency } = useProducts();
+  const { placeOrder } = useOrders();
+
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [loading, setLoading] = useState(false);
 
@@ -20,8 +25,8 @@ const Checkout = () => {
     }
   }
 
-  const subtotal = getCartAmount();
-  const shipping = subtotal > 0 ? delivery_fee : 0;
+  const subtotal = getCartAmount(products);
+  const shipping = getDeliveryFee(subtotal);
   const total = subtotal + shipping;
 
   const handlePlaceOrder = (e) => {
@@ -30,7 +35,13 @@ const Checkout = () => {
     setLoading(true);
 
     setTimeout(() => {
-      const success = placeOrder(paymentMethod);
+      const success = placeOrder({
+        cartItems,
+        products,
+        paymentMethod,
+        deliveryFee: shipping,
+        clearCart,
+      });
       if (success) {
         navigate('/my-orders');
       } else {
@@ -120,14 +131,25 @@ const Checkout = () => {
 
           <div className='pt-4 border-t border-zinc-200 space-y-2 text-sm text-zinc-600'>
             <div className='flex justify-between'><span>Subtotal</span><span>{currency}{subtotal}</span></div>
-            <div className='flex justify-between'><span>Insured Delivery</span><span>{currency}{shipping}</span></div>
+            <div className='flex justify-between items-center'>
+              <span>Insured Delivery</span>
+              <span>
+                {shipping === 0 ? (
+                  <span className='text-emerald-700 font-bold uppercase text-xs bg-emerald-100 px-2 py-0.5 rounded'>
+                    FREE
+                  </span>
+                ) : (
+                  `${currency}${shipping}`
+                )}
+              </span>
+            </div>
             <div className='flex justify-between font-bold text-base text-zinc-900 pt-2 border-t'><span>Total</span><span>{currency}{total}</span></div>
           </div>
 
           <button
             type='submit'
             disabled={loading}
-            className='w-full py-3.5 bg-[#1B3022] hover:bg-[#14251A] text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-50'
+            className='w-full py-3.5 bg-[#142419] hover:bg-[#0E1A12] text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm hover:shadow-md disabled:opacity-50'
           >
             {loading ? <span>Processing Order...</span> : <span>Place Order</span>}
           </button>

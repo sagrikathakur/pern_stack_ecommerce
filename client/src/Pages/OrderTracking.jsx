@@ -35,7 +35,7 @@ const OrderTracking = () => {
             const Icon = step.icon
             return (
               <div key={index} className='flex sm:flex-col items-center sm:text-center gap-4 sm:gap-2 relative z-10'>
-                <div className={`p-3 rounded-full text-white ${step.done ? 'bg-[#1B3022]' : 'bg-zinc-200 text-zinc-400'}`}>
+                <div className={`p-3 rounded-full text-white ${step.done ? 'bg-[#142419]' : 'bg-zinc-200 text-zinc-400'}`}>
                   <Icon className='size-5' />
                 </div>
                 <div>
@@ -49,7 +49,7 @@ const OrderTracking = () => {
 
         {/* Delivery Address Details */}
         <div className='pt-6 border-t border-zinc-100 flex items-start gap-3 text-sm text-zinc-600'>
-          <MapPin className='size-5 text-[#1B3022] shrink-0 mt-0.5' />
+          <MapPin className='size-5 text-[#142419] shrink-0 mt-0.5' />
           <div>
             <p className='font-semibold text-zinc-900'>Delivery Location</p>
             <p className='text-xs text-zinc-500 mt-0.5'>{order.address.name} • {order.address.street}, {order.address.city}, {order.address.state}</p>

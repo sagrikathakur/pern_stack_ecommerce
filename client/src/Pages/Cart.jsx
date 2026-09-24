@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
-import { ShopContext } from '../context/ShopContext';
+import { Trash2, ShoppingBag, ArrowRight, Truck, Sparkles } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { useProducts } from '../context/ProductContext';
 
 const Cart = () => {
   const {
     cartItems,
-    products,
     updateQuantity,
     removeFromCart,
     getCartAmount,
-    delivery_fee,
-    currency,
-  } = useContext(ShopContext);
+    getDeliveryFee,
+    free_shipping_threshold,
+  } = useCart();
+  const { products, currency } = useProducts();
 
   const cartData = [];
   for (const id in cartItems) {
@@ -24,9 +25,12 @@ const Cart = () => {
     }
   }
 
-  const subtotal = getCartAmount();
-  const shipping = subtotal > 0 ? delivery_fee : 0;
+  const subtotal = getCartAmount(products);
+  const shipping = getDeliveryFee(subtotal);
   const total = subtotal + shipping;
+
+  const isFreeDelivery = subtotal > free_shipping_threshold;
+  const amountNeededForFreeDelivery = free_shipping_threshold - subtotal;
 
   if (cartData.length === 0) {
     return (
@@ -38,7 +42,7 @@ const Cart = () => {
         </p>
         <Link
           to='/products'
-          className='inline-flex items-center gap-2 px-6 py-3 bg-[#1B3022] text-white text-sm font-semibold rounded-xl'
+          className='inline-flex items-center gap-2 px-6 py-3 bg-[#142419] hover:bg-[#0E1A12] text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all'
         >
           <span>Explore Collection</span>
           <ArrowRight className='size-4' />
@@ -54,6 +58,35 @@ const Cart = () => {
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-10'>
         {/* Left: Cart Items List */}
         <div className='lg:col-span-2 space-y-4'>
+          {/* Free Shipping Alert Banner */}
+          <div
+            className={`p-4 rounded-xl border flex items-center gap-3 text-sm ${
+              isFreeDelivery
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                : 'bg-amber-50/80 border-amber-200 text-amber-900'
+            }`}
+          >
+            {isFreeDelivery ? (
+              <>
+                <Sparkles className='size-5 text-emerald-600 shrink-0' />
+                <div>
+                  <p className='font-semibold'>Congratulations! You've unlocked FREE Insured Delivery!</p>
+                  <p className='text-xs text-emerald-700'>Your bag total exceeds {currency}{free_shipping_threshold}.</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <Truck className='size-5 text-amber-700 shrink-0' />
+                <div>
+                  <p className='font-semibold'>
+                    Add {currency}{amountNeededForFreeDelivery} more to get FREE Insured Delivery!
+                  </p>
+                  <p className='text-xs text-amber-700'>Free delivery applies on bag total over {currency}{free_shipping_threshold}.</p>
+                </div>
+              </>
+            )}
+          </div>
+
           {cartData.map(({ product, quantity }) => (
             <div
               key={product.id}
@@ -114,10 +147,16 @@ const Cart = () => {
                 {currency}{subtotal}
               </span>
             </div>
-            <div className='flex justify-between'>
+            <div className='flex justify-between items-center'>
               <span>Insured Shipping</span>
               <span className='font-medium text-zinc-900'>
-                {currency}{shipping}
+                {shipping === 0 ? (
+                  <span className='text-emerald-700 font-bold uppercase text-xs bg-emerald-100 px-2 py-0.5 rounded'>
+                    FREE
+                  </span>
+                ) : (
+                  `${currency}${shipping}`
+                )}
               </span>
             </div>
           </div>
@@ -131,7 +170,7 @@ const Cart = () => {
 
           <Link
             to='/checkout'
-            className='w-full py-3.5 bg-[#1B3022] hover:bg-[#14251A] text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors text-center block mt-4'
+            className='w-full py-3.5 bg-[#142419] hover:bg-[#0E1A12] text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm hover:shadow-md text-center block mt-4'
           >
             <span>Proceed to Checkout</span>
             <ArrowRight className='size-4' />

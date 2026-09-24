@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search as SearchIcon } from 'lucide-react';
-import { ShopContext } from '../context/ShopContext';
+import { useProducts } from '../context/ProductContext';
 
 const Search = () => {
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency } = useProducts();
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
 

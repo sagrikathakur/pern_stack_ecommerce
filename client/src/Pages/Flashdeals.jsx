@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { ShopContext } from '../context/ShopContext';
+import { useProducts } from '../context/ProductContext';
 
 const coupons = [
   { code: 'ROYAL10', discount: 10, description: '10% off on all Kundan & Polki sets' },
@@ -10,7 +10,7 @@ const coupons = [
 ];
 
 const Flashdeals = () => {
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency } = useProducts();
   const dealProducts = products.filter((p) => p.mrp && p.mrp > p.price);
 
   const copyCouponCode = (code) => {

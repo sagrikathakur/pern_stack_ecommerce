@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShopContext } from '../../context/ShopContext';
+import { useProducts } from '../../context/ProductContext';
 
 const PopularProduct = () => {
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency } = useProducts();
 
   return (
     <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14'>

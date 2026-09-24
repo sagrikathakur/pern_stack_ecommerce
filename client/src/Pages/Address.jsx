@@ -30,7 +30,7 @@ const Address = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className='inline-flex items-center gap-2 px-5 py-2.5 bg-[#1B3022] hover:bg-[#14251A] text-white text-sm font-semibold rounded-xl cursor-pointer transition-colors'
+          className='inline-flex items-center gap-2 px-5 py-2.5 bg-[#142419] hover:bg-[#0E1A12] text-white text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-xs'
         >
           <Plus className='size-4' />
           <span>Add New Address</span>
@@ -121,7 +121,7 @@ const Address = () => {
                 </button>
                 <button
                   type='submit'
-                  className='flex-1 py-3 bg-[#1B3022] text-white text-sm font-semibold rounded-xl'
+                  className='flex-1 py-3 bg-[#142419] hover:bg-[#0E1A12] text-white text-sm font-semibold rounded-xl cursor-pointer transition-colors'
                 >
                   Save Address
                 </button>
